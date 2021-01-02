@@ -281,6 +281,7 @@ GetNetworkInformation() {
   pi_ip_address=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
   pi_hostname=$(hostname)
   pi_gateway=$(ip r | grep 'default' | awk '{print $3}')
+  pi_external_ip_address=$(wget -qqO- 'https://duckduckgo.com/?q=what+is+my+ip'   | grep -Pow 'Your IP address is \K[0-9.]+') #TC Add 
 
   full_hostname=${pi_hostname}
   # does the Pi-hole have a domain set?
@@ -678,6 +679,7 @@ PrintNetworkInformation() {
       CleanPrintf "%s\e[0K\\n" "${dhcp_info}"
     fi        
   elif [[ "$1" = "regular" || "$1" = "slim" ]]; then
+  	CleanEcho  #TC Add
     CleanEcho "${bold_text}NETWORK ===================================================${reset_text}"
     CleanPrintf " %-10s%-19s %-10s%-19s\e[0K\\n" "Hostname:" "${full_hostname}" "IPv4:" "${IPV4_ADDRESS}"
     CleanPrintf " %-10s%-19s\e[0K\\n" "IPv6:" "${IPV6_ADDRESS}"
@@ -688,9 +690,9 @@ PrintNetworkInformation() {
       CleanPrintf "%s\e[0K\\n" "${dhcp_info}"
     fi
   else
+  	CleanEcho  #TC Add
     CleanEcho "${bold_text}NETWORK =======================================================================${reset_text}"
-    CleanPrintf " %-10s%-19s\e[0K\\n" "Hostname:" "${full_hostname}"
-    CleanPrintf " %-10s%-19s %-10s%-29s\e[0K\\n" "IPv4 Adr:" "${IPV4_ADDRESS}" "IPv6 Adr:" "${IPV6_ADDRESS}"
+    CleanPrintf " %-10s%-19s %-10s%-29s\e[0K\\n" "IPv4 Adr:" "${pi_ip_address}" "IPv6 Adr:" "${IPV6_ADDRESS}" #TC Add changed IPv4 to pi_ip_address
     CleanEcho "DNS ==========================================================================="
     CleanPrintf " %-10s%-39s\e[0K\\n" "Servers:" "${dns_information}"
     CleanPrintf " %-10s${dnssec_heatmap}%-19s${reset_text} %-20s${conditional_forwarding_heatmap}%-9s${reset_text}\e[0K\\n" "DNSSEC:" "${dnssec_status}" "Conditional Fwding:" "${conditional_forwarding_status}"
@@ -810,6 +812,7 @@ PrintSystemInformation() {
     CleanPrintf " %-10s[${memory_heatmap}%-7s${reset_text}] %-6s %-8s[${cpu_load_1_heatmap}%-7s${reset_text}] %-5s" "Memory:" "${memory_bar}" "${memory_percent}%" "CPU:" "${cpu_bar}" "${cpu_percent}%"
   # else we're not
   elif [[ "$1" = "regular" || "$1" = "slim" ]]; then
+    CleanEcho  #TC Add
     CleanEcho "${bold_text}SYSTEM ====================================================${reset_text}"
     # Uptime
     CleanPrintf " %-10s%-39s\e[0K\\n" "Uptime:" "${system_uptime}"
@@ -821,12 +824,15 @@ PrintSystemInformation() {
     # Memory and CPU bar
     CleanPrintf " %-10s[${memory_heatmap}%-10s${reset_text}] %-6s %-10s[${cpu_load_1_heatmap}%-10s${reset_text}] %-5s" "Memory:" "${memory_bar}" "${memory_percent}%" "CPU Load:" "${cpu_bar}" "${cpu_percent}%"
   else
+    CleanEcho  #TC Add
     CleanEcho "${bold_text}SYSTEM ========================================================================${reset_text}"
     # Uptime and memory
     CleanPrintf " %-10s%-39s %-10s[${memory_heatmap}%-10s${reset_text}] %-6s\\n" "Uptime:" "${system_uptime}" "Memory:" "${memory_bar}" "${memory_percent}%"
 
     # CPU temp, load, percentage
     CleanPrintf " %-10s${temp_heatmap}%-10s${reset_text} %-10s${cpu_load_1_heatmap}%-4s${reset_text}, ${cpu_load_5_heatmap}%-4s${reset_text}, ${cpu_load_15_heatmap}%-7s${reset_text} %-10s[${memory_heatmap}%-10s${reset_text}] %-6s" "CPU Temp:" "${temperature}" "CPU Load:" "${cpu_load[0]}" "${cpu_load[1]}" "${cpu_load[2]}" "CPU Load:" "${cpu_bar}" "${cpu_percent}%"
+  	CleanEcho  #TC Add   
+    CleanPrintf " %-10s%-39s\e[0K\\n" "Screen Size: ${padd_size}"  #TC Add
   fi
 }
 
