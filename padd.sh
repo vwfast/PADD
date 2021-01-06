@@ -835,7 +835,7 @@ PrintSystemInformation() {
     # CPU temp, load, percentage
     CleanPrintf " %-10s${temp_heatmap}%-10s${reset_text} %-10s${cpu_load_1_heatmap}%-4s${reset_text}, ${cpu_load_5_heatmap}%-4s${reset_text}, ${cpu_load_15_heatmap}%-7s${reset_text} %-10s[${memory_heatmap}%-10s${reset_text}] %-6s" "CPU Temp:" "${temperature}" "CPU Load:" "${cpu_load[0]}" "${cpu_load[1]}" "${cpu_load[2]}" "CPU Load:" "${cpu_bar}" "${cpu_percent}%"
   	CleanEcho  #TC Add   
-    CleanPrintf " %-10s%-19s %-10s%-29s\e[0K\\n" "Screen Size: ${padd_size}" "PADD Version Latest: ${padd_version_latest}" #TC Add
+    CleanPrintf " %-10s%-39s\e[0K\\n" "Screen Size: ${padd_size}"  #TC Add
   fi
 }
 
