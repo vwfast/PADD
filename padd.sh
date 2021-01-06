@@ -312,6 +312,8 @@ GetNetworkInformation() {
   if [[ ${dns_count} -eq 1 ]]; then
     if [[ "${PIHOLE_DNS_1}" == "127.0.0.1#5053" ]]; then
       dns_information="1 server (Cloudflared)"
+    elif [[ "${PIHOLE_DNS_1}" == "172.30.9.2#5053" ]]; then  #Added IPAddress of Cloudflared container
+      dns_information="1 server (Cloudflared)"
     elif [[ "${PIHOLE_DNS_1}" == "${pi_gateway}#53" ]]; then
       dns_information="1 server (gateway)"
     else
@@ -692,6 +694,7 @@ PrintNetworkInformation() {
   else
   	CleanEcho  #TC Add
     CleanEcho "${bold_text}NETWORK =======================================================================${reset_text}"
+  	CleanPrintf " %-10s%-19s %-10s%-29s\e[0K\\n" "Hostname:" "${full_hostname}" "External IP: ${yellow_text}${pi_external_ip_address}${reset_text}" #TC Add
     CleanPrintf " %-10s%-19s %-10s%-29s\e[0K\\n" "IPv4 Adr:" "${pi_ip_address}" "IPv6 Adr:" "${IPV6_ADDRESS}" #TC Add changed IPv4 to pi_ip_address
     CleanEcho "DNS ==========================================================================="
     CleanPrintf " %-10s%-39s\e[0K\\n" "Servers:" "${dns_information}"
