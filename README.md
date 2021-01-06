@@ -1,5 +1,7 @@
 ***Note:** PADD has been adopted by the Pi-hole team, thanks to JPMCK for creating this helpful tool!
 
+This is my customized version for use with Pi-Hole and Cloudflared running in containers on my Raspberry Pi
+
 # PADD
 
 PADD (formerly Chronometer2) is a more expansive version of the original chronometer.sh that is included with [Pi-Hole](https://pi-hole.net). PADD provides in-depth information about your Pi-hole.
