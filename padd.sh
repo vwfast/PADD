@@ -513,7 +513,7 @@ GetVersionInformation() {
     fi
 
     # PADD version information...
-    padd_version_latest=$(json_extract tag_name "$(curl -s 'https://api.github.com/repos/pi-hole/PADD/releases/latest' 2> /dev/null)")
+    padd_version_latest=$(json_extract tag_name "$(curl -s 'https://api.github.com/repos/vwfast/PADD/releases/latest' 2> /dev/null)")
 
     # is PADD up-to-date?
     if [[ "${padd_version_latest}" == "" ]]; then
