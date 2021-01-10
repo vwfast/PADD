@@ -281,7 +281,7 @@ GetNetworkInformation() {
   pi_ip_address=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
   pi_hostname=$(hostname)
   pi_gateway=$(ip r | grep 'default' | awk '{print $3}')
-  pi_external_ip_address=$(wget -qqO- 'https://duckduckgo.com/?q=what+is+my+ip'   | grep -Pow 'Your IP address is \K[0-9.]+') #TC Add 
+  pi_external_ip_address=$(cat /ExternalIP.txt) #TC Add 
 
   full_hostname=${pi_hostname}
   # does the Pi-hole have a domain set?
