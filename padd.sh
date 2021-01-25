@@ -15,6 +15,7 @@ LC_ALL=C
 LC_NUMERIC=C
 
 ############################################ VARIABLES #############################################
+model=$(cat /proc/device-tree/model | awk '{print $3$5}') # display model number i.e. 4B awk '{print $3$5,$7}')
 
 # VERSION
 padd_version="v3.5.5"
@@ -638,7 +639,7 @@ PrintLogo() {
   # normal or not defined
   else
     CleanPrintf "${padd_logo_retro_1}\e[0K\\n"
-    CleanPrintf "${padd_logo_retro_2}   Pi-hole® ${core_version_heatmap}v${core_version}${reset_text}, Web ${web_version_heatmap}v${web_version}${reset_text}, FTL ${ftl_version_heatmap}v${ftl_version}${reset_text}, PADD ${padd_version_heatmap}${padd_version}${reset_text}\e[0K\\n"
+    CleanPrintf "${padd_logo_retro_2}   Pi-hole® ${core_version_heatmap}v${core_version}${reset_text}, Web ${web_version_heatmap}v${web_version}${reset_text}, FTL ${ftl_version_heatmap}v${ftl_version}${reset_text}, PADD ${padd_version_heatmap}${padd_version}${reset_text}, RaspberryPI ${green_text}${model}${reset_text}\e[0K\\n"
     CleanPrintf "${padd_logo_retro_3}   ${pihole_check_box} Core  ${ftl_check_box} FTL   ${mega_status}${reset_text}\e[0K\\n"
 
     CleanEcho ""
