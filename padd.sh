@@ -15,7 +15,12 @@ LC_ALL=C
 LC_NUMERIC=C
 
 ############################################ VARIABLES #############################################
-model=$(cat /proc/device-tree/model | awk '{print $3$5}') # display model number i.e. 4B awk '{print $3$5,$7}')
+PiVersion=/PiVersion.txt
+if [[ -f "$PiVersion" ]]; then
+    model=$(cat $PiVersion) 
+else 
+    model="Unknown"
+fi
 
 # VERSION
 padd_version="v3.5.5"
