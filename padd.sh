@@ -20,9 +20,7 @@ LC_NUMERIC=C
 
 # Getting PI model info from /PiVersion.txt which has to be copied from the Pi
 # Add the following to the sudo crontab -e on the Pi
-# 58 23 * * * cat /proc/device-tree/model | awk '{print $3$5}' > /home/pi/PiVersion.txt && chmod +x /home/pi/PiVersion.txt   #Reads Pi version to file and sets execute perms
-# 59 23 * * * docker cp /home/pi/PiVersion.txt pihole:/  #Copies /home/pi/PiVersion.txt  to pihole container
-
+# 59 23 * * * cat /proc/device-tree/model | awk '{print $3$5}' > /home/pi/PiVersion.txt && docker cp /home/pi/PiVersion.txt pihole:/
 PiVersion=/PiVersion.txt
 if [[ -f "$PiVersion" ]]; then
     model=$(cat $PiVersion) 
@@ -30,6 +28,9 @@ else
     model="Unknown"
 fi
 
+# Getting External IP from /ExternalIP.txt which has to be copied from the Pi
+# Add the following to the sudo crontab -e on the Pi
+# */30 * * * * wget -qqO- 'https://duckduckgo.com/?q=what+is+my+ip'   | grep -Pow 'Your IP address is \K[0-9.]+'> /home/pi/ExternalIP.txt  && docker cp /home/pi/ExternalIP.txt pihole:/
 ExternalIP=/ExternalIP.txt
 if [[ -f "$ExternalIP" ]]; then
     pi_external_ip_address=$(cat $ExternalIP) 
