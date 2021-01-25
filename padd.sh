@@ -15,12 +15,28 @@ LC_ALL=C
 LC_NUMERIC=C
 
 ############################################ VARIABLES #############################################
+
+########################### CUSTOM VARIABLES BY TC ##########################################
+
+# Getting PI model info from /PiVersion.txt which has to be copied from the Pi
+# Add the following to the sudo crontab -e on the Pi
+# 58 23 * * * cat /proc/device-tree/model | awk '{print $3$5}' > /home/pi/PiVersion.txt && chmod +x /home/pi/PiVersion.txt   #Reads Pi version to file and sets execute perms
+# 59 23 * * * docker cp /home/pi/PiVersion.txt pihole:/  #Copies /home/pi/PiVersion.txt  to pihole container
+
 PiVersion=/PiVersion.txt
 if [[ -f "$PiVersion" ]]; then
     model=$(cat $PiVersion) 
 else 
     model="Unknown"
 fi
+
+ExternalIP=/ExternalIP.txt
+if [[ -f "$ExternalIP" ]]; then
+    pi_external_ip_address=$(cat $ExternalIP) 
+else 
+    pi_external_ip_address="Unknown"
+fi
+
 
 # VERSION
 padd_version="v3.5.5"
@@ -287,7 +303,6 @@ GetNetworkInformation() {
   pi_ip_address=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
   pi_hostname=$(hostname)
   pi_gateway=$(ip r | grep 'default' | awk '{print $3}')
-  pi_external_ip_address=$(cat /ExternalIP.txt > /dev/null 2>&1) #TC Add 
 
   full_hostname=${pi_hostname}
   # does the Pi-hole have a domain set?
